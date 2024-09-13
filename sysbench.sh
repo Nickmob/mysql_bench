@@ -27,7 +27,7 @@ threads_num=4
 bench_time=10
 
 # Размер таблицы (sysbench)
-table_size=1000000
+table_size=100000
 
 # Количество таблиц (sysbench)
 table_num=2
@@ -35,7 +35,8 @@ table_num=2
 cd  /usr/share/sysbench/
 
 # Создаём БД
-mysqladmin -u$mysql_user -p$mysql_pass -f drop $db_sysbench && mysqladmin -u$mysql_user -p$mysql_pass create $db_sysbench
+mysqladmin -u$mysql_user -p$mysql_pass -f drop $db_sysbench
+mysqladmin -u$mysql_user -p$mysql_pass create $db_sysbench
 
 # Sysbench
 
@@ -60,7 +61,8 @@ mysqladmin -u$mysql_user -p$mysql_pass drop $db_sysbench
 # TPCC Percona
 cd /usr/share/sysbench/percona
 
-mysqladmin -u$mysql_user -p$mysql_pass -f drop sbt && mysqladmin -u$mysql_user -p$mysql_pass create $db_tpcc
+mysqladmin -u$mysql_user -p$mysql_pass -f drop sbt
+mysqladmin -u$mysql_user -p$mysql_pass create $db_tpcc
 mysql -u$mysql_user -p$mysql_pass -e 'PURGE BINARY LOGS BEFORE NOW();'
 
 ./tpcc.lua --mysql-user=$mysql_user --mysql-password=$mysql_pass --mysql-host=$mysql_host --mysql-port=$mysql_port --mysql-db=$db_tpcc --threads=$threads_num --tables=$table_num --scale=2 prepare
