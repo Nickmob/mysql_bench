@@ -21,7 +21,7 @@ table_size=100000
 # Количество таблиц (sysbench)
 table_num=2
 # Опции sysbench
-sysb_opts='$sysb_opts'
+sysb_opts='--histogram=off'
 
 cd  /usr/share/sysbench/
 
@@ -42,7 +42,7 @@ mysqladmin -u$mysql_user -p$mysql_pass create $db_sysbench > /dev/null
 
 # RO traffic
 sysbench ./oltp_read_only.lua --threads=$threads_num --mysql-host=$mysql_host --mysql-user=$mysql_user --mysql-password=$mysql_pass --mysql-port=$mysql_port --tables=$table_num --table-size=$table_size prepare > /dev/null
-mysql -u$mysql_user -p$mysql_pass -e 'PURGE BINARY LOGS BEFORE NOW();'
+mysql -u$mysql_user -p$mysql_pass -e 'PURGE BINARY LOGS BEFORE NOW();' > /dev/null
 echo '>>>>>>>>>>> Test: oltp_read_only.lua <<<<<<<<<<<<'
 sysbench ./oltp_read_only.lua --threads=$threads_num --events=0 --time=$bench_time --mysql-host=$mysql_host --mysql-user=$mysql_user --mysql-password=$mysql_pass --mysql-port=$mysql_port --tables=$table_num --table-size=$table_size --range_selects=off --db-ps-mode=disable --report-interval=0 $sysb_opts run
 sysbench ./oltp_read_only.lua --threads=$threads_num --events=0 --time=$bench_time --mysql-host=$mysql_host --mysql-user=$mysql_user --mysql-password=$mysql_pass --mysql-port=$mysql_port --tables=$table_num --table-size=$table_size --range_selects=off --db-ps-mode=disable --report-interval=0 cleanup > /dev/null
