@@ -73,5 +73,5 @@ mysql -u$mysql_user -p$mysql_pass -e 'PURGE BINARY LOGS BEFORE NOW();' > /dev/nu
 echo '>>>>>>>>>>> Test: tpcc.lua <<<<<<<<<<<<'
 ./tpcc.lua --mysql-user=$mysql_user --mysql-password=$mysql_pass --mysql-host=$mysql_host --mysql-port=$mysql_port --mysql-db=$db_tpcc --time=$bench_time --threads=$threads_num --report-interval=0 --tables=$table_num --scale=2 --db-driver=mysql $sysb_opts run
 
-mysqladmin -u$mysql_user -p$mysql_pass -f $db_tpcc > /dev/null
+mysqladmin -u$mysql_user -p$mysql_pass -f drop $db_tpcc > /dev/null
 echo 'Done!'
